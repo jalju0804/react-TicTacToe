@@ -10,6 +10,7 @@ const initialState = {
         ["","",""]
     ],
     recentCell:[-1,-1],
+    draw : "",
 };
 
 export const SET_WINNER = 'SET_WINNER'; // action은 대문자로 설정
@@ -23,6 +24,7 @@ const reducer = (state,action) => {
             return{
                 ...state,
                 winner: action.winner,
+                draw : "",
             }; // 새로운 객체를 만들고 그 안에 바꾸는 값을 바꿔줘야됨(react 공통)
         case CLICK_CELL:{
             const tableData = [...state.tableData];//불변성을 지키기 위해 객체는 얕은 복사를 함
@@ -50,6 +52,7 @@ const reducer = (state,action) => {
                 ["","",""]
                   ],
                 recentCell:[-1,-1],
+                draw : "a",
             }
         }
         default:
@@ -59,7 +62,7 @@ const reducer = (state,action) => {
 
 const Tictactoe = () =>{
     const[state,dispatch] = useReducer(reducer,initialState);
-    const {tableData,turn,winner,recentCell}= state;
+    const {tableData,turn,winner,recentCell,draw}= state;
     // const[winner,setWinner]= useState("");
     // const[turn,setTurn]= useState("O");
     // const[tableData,setTableData] = useState([["","",""],["","",""],["","",""]]);
@@ -110,6 +113,7 @@ const Tictactoe = () =>{
         <>
         <Table onClick = {onClickTable} tableData = {tableData} dispatch = {dispatch}/>
         {winner && <div>{winner}님의 승리</div>}
+        {draw && !winner && <div>비겼습니다</div>}
         </>
     );
 };
